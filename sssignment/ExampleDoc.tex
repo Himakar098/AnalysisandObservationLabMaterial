@@ -1,0 +1,728 @@
+\documentclass[12pt,A4,makeidx]{article}\usepackage[]{graphicx}\usepackage[]{xcolor}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{subfig}
+\usepackage{comment}
+\UseRawInputEncoding
+
+\makeindex
+
+\textwidth 16.5cm
+\hoffset -2.0cm
+\textheight 23cm
+\voffset -1.5cm
+
+\newcommand{\tR}{\texttt{R}}
+\newcommand{\adist}{\overset{\cdot}{\underset{\cdot}{\sim}}}
+%\setcounter{tocdepth}{2}
+\title
+{Essential R}
+
+\author{R. Nazim Khan}
+\date{\today}
+
+%\includeonly{utilities, prog, probdist, graphics,stats}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\numberwithin{figure}{section}
+\numberwithin{equation}{section}
+\numberwithin{table}{section}
+
+\maketitle
+\section{Introduction}
+This is a basic introdcution to \tR\, a statistical environment. More information can be found in a many references. One particular
+complete reference is \cite{rbook}.
+
+
+\section{Data Basics}
+\label{data}
+In this section we discuss basic data manipulation. We also discuss how to read data into \tR \ and 
+write them out to files.
+
+\subsection{Data manipulation}
+
+The basic data types in \tR \ are numerical, characters, strings and nominal/ordinal. Each data type can be stored 
+as constants, vectors, matrices or dataframes.
+There are several ways to read data into \tR.
+Data can be directly entered into \tR\ by defining variables.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{a}\hlkwb{<-}\hlnum{1.2}
+\hlstd{b}\hlkwb{<-}\hlstd{pi}
+\hlstd{x}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{)}
+\hlstd{y}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlnum{6}\hlopt{:}\hlnum{10}\hlstd{)}
+\hlstd{x}
+\end{alltt}
+\begin{verbatim}
+## [1] 1 2 3 4 5
+\end{verbatim}
+\begin{alltt}
+\hlstd{y}
+\end{alltt}
+\begin{verbatim}
+## [1]  6  7  8  9 10
+\end{verbatim}
+\begin{alltt}
+\hlstd{z}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlnum{1.1}\hlstd{,}\hlnum{2.1}\hlstd{,}\hlnum{3.2}\hlstd{,}\hlnum{4.5}\hlstd{,}\hlnum{2.4}\hlstd{,}\hlnum{3.8}\hlstd{,}\hlnum{4.3}\hlstd{)}
+\hlstd{z}
+\end{alltt}
+\begin{verbatim}
+## [1] 1.1 2.1 3.2 4.5 2.4 3.8 4.3
+\end{verbatim}
+\begin{alltt}
+\hlstd{z[}\hlnum{2}\hlstd{]}
+\end{alltt}
+\begin{verbatim}
+## [1] 2.1
+\end{verbatim}
+\begin{alltt}
+\hlstd{z[}\hlnum{1}\hlopt{:}\hlnum{2}\hlstd{]}
+\end{alltt}
+\begin{verbatim}
+## [1] 1.1 2.1
+\end{verbatim}
+\begin{alltt}
+\hlstd{z[}\hlkwd{c}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{4}\hlstd{)]}
+\end{alltt}
+\begin{verbatim}
+## [1] 2.1 4.5
+\end{verbatim}
+\begin{alltt}
+\hlkwd{which}\hlstd{(z}\hlopt{>}\hlnum{4}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 4 7
+\end{verbatim}
+\begin{alltt}
+\hlstd{z[z}\hlopt{<}\hlnum{4}\hlstd{]}
+\end{alltt}
+\begin{verbatim}
+## [1] 1.1 2.1 3.2 2.4 3.8
+\end{verbatim}
+\begin{alltt}
+\hlstd{z[}\hlopt{-}\hlnum{2}\hlstd{]}
+\end{alltt}
+\begin{verbatim}
+## [1] 1.1 3.2 4.5 2.4 3.8 4.3
+\end{verbatim}
+\begin{alltt}
+\hlcom{#This lists z without its second element.}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+First the constants $a=1.2$ and $b=\pi$ have been defined. The vector \texttt{x} contains the numbers 1 to 5. 
+Note that the syntax \texttt{1:5} indicates integers between
+$1$ to $5$ inclusive. The vector $z$ contains real numbers.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x}\hlopt{*}\hlstd{y}
+\end{alltt}
+\begin{verbatim}
+## [1]  6 14 24 36 50
+\end{verbatim}
+\begin{alltt}
+\hlstd{x}\hlopt{+}\hlstd{y}
+\end{alltt}
+\begin{verbatim}
+## [1]  7  9 11 13 15
+\end{verbatim}
+\begin{alltt}
+\hlstd{x}\hlopt{*}\hlstd{z}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in x * z: longer object length is not a multiple of shorter object length}}\begin{verbatim}
+## [1]  1.1  4.2  9.6 18.0 12.0  3.8  8.6
+\end{verbatim}
+\begin{alltt}
+\hlstd{y}\hlopt{%%}\hlnum{2}
+\end{alltt}
+\begin{verbatim}
+## [1] 0 1 0 1 0
+\end{verbatim}
+\begin{alltt}
+\hlnum{3}\hlopt{%/%}\hlnum{2}
+\end{alltt}
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+The symbol $+$ indicated addition, $*$ indicates multiplication while \texttt{/} indicated real division, 
+and these are performed term by term. 
+If the objects are not of the same length then the shorter one is re-cycled to match the lengths. The symbol \texttt{\%\%}
+represents modulo division, while \texttt{\%/\%} represents integer division.
+
+More complicated computations can be performed:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{(x}\hlopt{+}\hlstd{y)}\hlopt{^}\hlnum{2}
+\end{alltt}
+\begin{verbatim}
+## [1]  49  81 121 169 225
+\end{verbatim}
+\begin{alltt}
+\hlkwd{log}\hlstd{(x)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.0000000 0.6931472 1.0986123 1.3862944 1.6094379
+\end{verbatim}
+\begin{alltt}
+\hlkwd{log10}\hlstd{(x)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.0000000 0.3010300 0.4771213 0.6020600 0.6989700
+\end{verbatim}
+\begin{alltt}
+\hlkwd{log2}\hlstd{(x)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.000000 1.000000 1.584963 2.000000 2.321928
+\end{verbatim}
+\begin{alltt}
+\hlkwd{logb}\hlstd{(x,}\hlnum{3}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.0000000 0.6309298 1.0000000 1.2618595 1.4649735
+\end{verbatim}
+\begin{alltt}
+\hlkwd{exp}\hlstd{(x)}
+\end{alltt}
+\begin{verbatim}
+## [1]   2.718282   7.389056  20.085537  54.598150 148.413159
+\end{verbatim}
+\begin{alltt}
+\hlnum{10}\hlopt{^}\hlstd{x}
+\end{alltt}
+\begin{verbatim}
+## [1] 1e+01 1e+02 1e+03 1e+04 1e+05
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Note that $\log$ represents logarithm to the base $e$. 
+
+A large range of mathematical functions is available.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{sin}\hlstd{(pi)}
+\end{alltt}
+\begin{verbatim}
+## [1] 1.224606e-16
+\end{verbatim}
+\begin{alltt}
+\hlkwd{exp}\hlstd{(}\hlopt{-}\hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.3678794
+\end{verbatim}
+\begin{alltt}
+\hlkwd{log}\hlstd{(}\hlkwd{exp}\hlstd{(}\hlnum{1}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Note that \tR \ can also handle complex numbers.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x}\hlkwb{<-}\hlstd{(}\hlnum{1}\hlopt{+}\hlnum{2i}\hlstd{)}
+\hlstd{y}\hlkwb{<-}\hlstd{(}\hlnum{3}\hlopt{+}\hlnum{4i}\hlstd{)}
+\hlstd{x}\hlopt{+}\hlstd{y}
+\end{alltt}
+\begin{verbatim}
+## [1] 4+6i
+\end{verbatim}
+\begin{alltt}
+\hlstd{x}\hlopt{^}\hlnum{2}
+\end{alltt}
+\begin{verbatim}
+## [1] -3+4i
+\end{verbatim}
+\begin{alltt}
+\hlstd{x}\hlopt{^}\hlstd{y}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.1290096+0.0339241i
+\end{verbatim}
+\begin{alltt}
+\hlkwd{sqrt}\hlstd{(x)}
+\end{alltt}
+\begin{verbatim}
+## [1] 1.27202+0.786151i
+\end{verbatim}
+\begin{alltt}
+\hlkwd{sqrt}\hlstd{((}\hlopt{-}\hlnum{1}\hlopt{+}\hlnum{0i}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## [1] 0+1i
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Character types can also be easily handled by \tR.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlstr{"Hummer"}\hlstd{,}\hlstr{"Dodge"}\hlstd{,}\hlstr{"Bentley"}\hlstd{)}
+\hlstd{y}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlstr{"Toyota"}\hlstd{,}\hlstr{"Honda"}\hlstd{,}\hlstr{"Mitsubishi"}\hlstd{)}
+\hlkwd{str}\hlstd{(x)}
+\end{alltt}
+\begin{verbatim}
+##  chr [1:3] "Hummer" "Dodge" "Bentley"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\vspace{0.5in}
+{\bf Exercises}
+\begin{enumerate}
+\item Sales (\$millions)
+for a chain of stores for last year and this year 
+for the month of January, in store correspondence are:
+
+last years: 1.5, 1.7,2.1,3.4,1.3,2.4,4.5,0.9\\
+this years: 1.6, 1.8,1.9,3.5,1.1,2.2,4.5, 1.2\\
+
+Is there a difference in the mean sales between January last year and this year? Write the \tR \ code to compute
+the appropriate test statistic to test the appropriate hypotheses.
+\item Write the \tR \ code to compute the variance of the combined sales figures in the previous exercise.
+\item Suppose the sales were for a random sample of stores from a franchise. Now compute the appropriate test
+statistic to determine if the sales have increased from last year.
+\end{enumerate}
+
+
+Matrices are read as follows.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{x}\hlkwb{<-}\hlkwd{matrix}\hlstd{(}\hlkwc{nrow}\hlstd{=}\hlnum{3}\hlstd{,}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{3}\hlstd{,}\hlnum{4}\hlstd{,}\hlnum{5}\hlstd{,}\hlnum{6}\hlstd{,}\hlnum{7}\hlstd{,}\hlnum{8}\hlstd{,}\hlnum{9}\hlstd{),}\hlkwc{byrow}\hlstd{=F)}
+\hlstd{x}
+\end{alltt}
+\begin{verbatim}
+##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9
+\end{verbatim}
+\begin{alltt}
+\hlkwd{class}\hlstd{(x)}
+\end{alltt}
+\begin{verbatim}
+## [1] "matrix" "array"
+\end{verbatim}
+\begin{alltt}
+\hlkwd{attributes}\hlstd{(x)}
+\end{alltt}
+\begin{verbatim}
+## $dim
+## [1] 3 3
+\end{verbatim}
+\begin{alltt}
+\hlstd{x[}\hlnum{1}\hlstd{,]}
+\end{alltt}
+\begin{verbatim}
+## [1] 1 4 7
+\end{verbatim}
+\begin{alltt}
+\hlstd{x[,}\hlnum{1}\hlstd{]}
+\end{alltt}
+\begin{verbatim}
+## [1] 1 2 3
+\end{verbatim}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(x)}
+\end{alltt}
+\begin{verbatim}
+##        V1            V2            V3     
+##  Min.   :1.0   Min.   :4.0   Min.   :7.0  
+##  1st Qu.:1.5   1st Qu.:4.5   1st Qu.:7.5  
+##  Median :2.0   Median :5.0   Median :8.0  
+##  Mean   :2.0   Mean   :5.0   Mean   :8.0  
+##  3rd Qu.:2.5   3rd Qu.:5.5   3rd Qu.:8.5  
+##  Max.   :3.0   Max.   :6.0   Max.   :9.0
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Another very useful function is \texttt{gl()}, which creates a factor with the specified number of levels. 
+The basic syntax is
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{Nitrogen}\hlkwb{<-}\hlkwd{gl}\hlstd{(}\hlkwc{n}\hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{k}\hlstd{=}\hlnum{10}\hlstd{,} \hlkwc{length} \hlstd{=} \hlnum{30}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Low"}\hlstd{,}\hlstr{"Med"}\hlstd{,}\hlstr{"High"}\hlstd{),} \hlkwc{ordered} \hlstd{= T)}
+\hlkwd{class}\hlstd{(Nitrogen)}
+\end{alltt}
+\begin{verbatim}
+## [1] "ordered" "factor"
+\end{verbatim}
+\begin{alltt}
+\hlkwd{is.factor}\hlstd{(Nitrogen)}
+\end{alltt}
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+\begin{alltt}
+\hlkwd{is.ordered}\hlstd{(Nitrogen)}
+\end{alltt}
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+where \texttt{n} give the number of levels, \texttt{k} gives the number of times each is repeated, \texttt{length} gives the
+option of repeating this set, \texttt{labels} provides a set of optional levels, and \texttt{ordered} specifies whether the
+factor is ordered.
+
+\subsection{Logical comparisons}
+\tR\ understands logical comparisons $<,>,<=,>=$, which are applied elementwise. Note that logical equality is
+$==$ and inequality is $!=$, while \& is `logical and', $\mid$ is `logical or'.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{(}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{)} \hlopt{==} \hlstd{(}\hlnum{5}\hlopt{:}\hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] FALSE FALSE  TRUE FALSE FALSE
+\end{verbatim}
+\begin{alltt}
+\hlstd{(}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{)}\hlopt{>}\hlstd{(}\hlnum{5}\hlopt{:}\hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] FALSE FALSE FALSE  TRUE  TRUE
+\end{verbatim}
+\begin{alltt}
+\hlstd{((}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{)}\hlopt{==}\hlstd{(}\hlnum{5}\hlopt{:}\hlnum{1}\hlstd{))}\hlopt{|}\hlstd{((}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{)}\hlopt{>}\hlstd{(}\hlnum{5}\hlopt{:}\hlnum{1}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## [1] FALSE FALSE  TRUE  TRUE  TRUE
+\end{verbatim}
+\begin{alltt}
+\hlstd{((}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{)}\hlopt{==}\hlstd{(}\hlnum{5}\hlopt{:}\hlnum{1}\hlstd{))}\hlopt{&} \hlstd{((}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{)}\hlopt{<}\hlstd{(}\hlnum{5}\hlopt{:}\hlnum{1}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## [1] FALSE FALSE FALSE FALSE FALSE
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Use \texttt{help("!")} to obtain information regarding logical operators. The following functions are also useful.
+\begin{description}
+\item[\texttt{any()}] Returns \texttt{TRUE} if any of the argument satisfies the criteria.
+\item[\texttt{all()}] Returns \texttt{TRUE} if all of the argument satisfies the criteria.
+\item[\texttt{identical()}] Returns \texttt{TRUE} if the two objects are exactly the same.
+\item[\texttt{all.equal()}] Returns \texttt{TRUE} the two objects are (near) equal.
+\end{description}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{identical}\hlstd{(}\hlkwd{sin}\hlstd{(pi),}\hlnum{0}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+\begin{alltt}
+\hlkwd{all.equal}\hlstd{(}\hlkwd{sin}\hlstd{(pi),}\hlnum{0}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+\begin{alltt}
+\hlstd{x}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlnum{1}\hlopt{:}\hlnum{4}\hlstd{,}\hlopt{-}\hlnum{1}\hlstd{,}\hlopt{-}\hlnum{3}\hlstd{,}\hlnum{0}\hlstd{)}
+\hlkwa{if}\hlstd{(}\hlkwd{any}\hlstd{(x}\hlopt{<}\hlnum{0}\hlstd{))} \hlkwd{cat}\hlstd{(}\hlstr{"Some x are negative"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## Some x are negative
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\subsection{Changing the working directory}
+The working directory can be changed from \texttt{File} $\Rightarrow$ \texttt{Change dir...}. This then gives a dialogue box that allows one to browse
+for the required directory.
+
+\subsection{Reading data into \texttt{R}}
+There are various ways to read data into \tR\ depending on the data format.
+\begin{enumerate}
+\item For files ending in \texttt{.R} or \texttt{.r} use \texttt{source()}.
+\item For files ending in \texttt{.Rdata} or \texttt{.rda} use \texttt{load()}.
+\item For files ending in \texttt{.tab}, \texttt{.txt} or \texttt{.TXT} use \texttt{read.table()}, which produces a dataframe.
+\item For files ending in \text{.csv} or \texttt{.CSV} use \texttt{read.table(...,header=TRUE, sep=";")}, which produces a dataframe.
+\end{enumerate}
+
+\subsubsection{The function \texttt{scan}}
+The function \texttt{scan} can be used to read data into \tR\ from a file.
+The basic syntax is
+
+\begin{verbatim}
+scan(file = "filename", sep = "",
+     skip = 0, nlines = 0, na.strings = "NA")
+\end{verbatim}
+If the filename is ``" then the input is from the keyboard (or the \texttt{stdin}), and is 
+terminated by a blank line. Only one column of data can be entered this way.
+
+
+\subsubsection{The function \texttt{read.table}}
+This function is used to read a dataframe from a file. The basic syntax is
+\begin{verbatim}
+read.table(file, header = FALSE, sep = "", quote = "\",...)
+\end{verbatim}
+Typically the file is a \texttt{.txt} or \texttt{.csv}. The separator is usually a space \texttt{sep=" "} in which
+case it can be omitted, a tab \texttt{sep="$\backslash$t"}, a comma \texttt{sep=","} or a semicolon \texttt{sep=";"}. If 
+\texttt{header=T} then column names will be read in from the first line of the file. Otherwise column names
+may be specified by a vector. Similarly, row names may also be specified by a vector.
+
+
+There are related functions \texttt{read.csv()}, \texttt{read.delim()} and a few variants. 
+Use the \texttt{help} function for more details. Excel files can also be read in---see the library 
+\texttt{readxl} for details.
+
+\subsubsection{Accessing built in data sets}
+
+There are several data sets supplied with \tR, and several that come with different packages. 
+All datasets supplied with \tR\ are directly available by name. 
+
+\subsection{Dataframes}
+Several columns together form a data set, with each
+row containing a \texttt{record}, that is, observations on a single \texttt{experimental unit}. In \tR \ such an
+object is called a \texttt{dataframe}. The matrix class and the dataframe class are very similar in \tR \, except that
+some operations can be performed on matrices but not on dataframes. The dataframe will have column names 
+that are used to refer to the variables.
+In \tR \ the dataframe may also have row names defined. Row names may be used to refer to each record,
+and this is meaningful in many contexts. For example, the observations may be demographic information on cities,
+and the records may be identified by the city names which are stored as row names.
+
+A dataframe is defined by the functions \texttt{data.frame()} or \texttt{as.data.frame()}. Below we create a 
+simple data frame.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{Make}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlstr{"Honda"}\hlstd{,}\hlstr{"Chevrolet"}\hlstd{,}\hlstr{"Ford"}\hlstd{,}\hlstr{"Eagle"}\hlstd{,}\hlstr{"Volkswagen"}\hlstd{,}\hlstr{"Buick"}\hlstd{,}\hlstr{"Mitsbusihi"}\hlstd{,}\hlstr{"Dodge"}\hlstd{,}\hlstr{"Chrysler"}\hlstd{,}\hlstr{"Acura"}\hlstd{)}
+\hlstd{Model}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlstr{"Civic"}\hlstd{,}\hlstr{"Beretta"}\hlstd{,}\hlstr{"Escort"}\hlstd{,}\hlstr{"Summit"}\hlstd{,}\hlstr{"Jetta"}\hlstd{,}\hlstr{"Le Sabre"}\hlstd{,}\hlstr{"Galant"}\hlstd{,}\hlstr{"Grand Caravan"}\hlstd{,}\hlstr{"New Yorker"}\hlstd{,}\hlstr{"Legend"}\hlstd{)}
+\hlstd{Cylinder}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlkwd{rep}\hlstd{(}\hlstr{"V4"}\hlstd{,}\hlnum{5}\hlstd{),}\hlstr{"V6"}\hlstd{,}\hlstr{"V4"}\hlstd{,}\hlkwd{rep}\hlstd{(}\hlstr{"V6"}\hlstd{,}\hlnum{3}\hlstd{))}
+\hlstd{Weight}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlnum{2170}\hlstd{,}\hlnum{2655}\hlstd{,}\hlnum{2345}\hlstd{,}\hlnum{2560}\hlstd{,}\hlnum{2330}\hlstd{,}\hlnum{3325}\hlstd{,}\hlnum{2745}\hlstd{,}\hlnum{3735}\hlstd{,}\hlnum{3450}\hlstd{,}\hlnum{3265}\hlstd{)}
+\hlstd{Mileage}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlnum{33}\hlstd{,}\hlnum{26}\hlstd{,}\hlnum{33}\hlstd{,}\hlnum{33}\hlstd{,}\hlnum{26}\hlstd{,}\hlnum{23}\hlstd{,}\hlnum{25}\hlstd{,}\hlnum{18}\hlstd{,}\hlnum{22}\hlstd{,}\hlnum{20}\hlstd{)}
+\hlstd{Type}\hlkwb{<-}\hlkwd{c}\hlstd{(}\hlstr{"Sporty"}\hlstd{,}\hlstr{"Compact"}\hlstd{,}\hlkwd{rep}\hlstd{(}\hlstr{"Small"}\hlstd{,}\hlnum{3}\hlstd{),}\hlstr{"Large"}\hlstd{,}\hlstr{"Compact"}\hlstd{,}\hlstr{"Van"}\hlstd{,}\hlkwd{rep}\hlstd{(}\hlstr{"Medium"}\hlstd{,}\hlnum{2}\hlstd{))}
+\hlstd{Car}\hlkwb{<-}\hlkwd{data.frame}\hlstd{(Make,Model,Cylinder,Weight,Mileage,Type)}
+\hlstd{Car}
+\end{alltt}
+\begin{verbatim}
+##          Make         Model Cylinder Weight Mileage    Type
+## 1       Honda         Civic       V4   2170      33  Sporty
+## 2   Chevrolet       Beretta       V4   2655      26 Compact
+## 3        Ford        Escort       V4   2345      33   Small
+## 4       Eagle        Summit       V4   2560      33   Small
+## 5  Volkswagen         Jetta       V4   2330      26   Small
+## 6       Buick      Le Sabre       V6   3325      23   Large
+## 7  Mitsbusihi        Galant       V4   2745      25 Compact
+## 8       Dodge Grand Caravan       V6   3735      18     Van
+## 9    Chrysler    New Yorker       V6   3450      22  Medium
+## 10      Acura        Legend       V6   3265      20  Medium
+\end{verbatim}
+\begin{alltt}
+\hlstd{Car[}\hlnum{1}\hlstd{,]}
+\end{alltt}
+\begin{verbatim}
+##    Make Model Cylinder Weight Mileage   Type
+## 1 Honda Civic       V4   2170      33 Sporty
+\end{verbatim}
+\begin{alltt}
+\hlstd{Car[,}\hlnum{1}\hlstd{]}
+\end{alltt}
+\begin{verbatim}
+##  [1] "Honda"      "Chevrolet"  "Ford"       "Eagle"      "Volkswagen" "Buick"      "Mitsbusihi" "Dodge"      "Chrysler"   "Acura"
+\end{verbatim}
+\begin{alltt}
+\hlstd{Car}\hlopt{$}\hlstd{Model}
+\end{alltt}
+\begin{verbatim}
+##  [1] "Civic"         "Beretta"       "Escort"        "Summit"        "Jetta"         "Le Sabre"      "Galant"        "Grand Caravan"
+##  [9] "New Yorker"    "Legend"
+\end{verbatim}
+\begin{alltt}
+\hlkwd{table}\hlstd{(Car}\hlopt{$}\hlstd{Type)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Compact   Large  Medium   Small  Sporty     Van 
+##       2       1       2       3       1       1
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+The proportion of cars of each type can be produced by:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{table}\hlstd{(Car}\hlopt{$}\hlstd{Type)}\hlopt{/}\hlkwd{length}\hlstd{(Car}\hlopt{$}\hlstd{Type)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Compact   Large  Medium   Small  Sporty     Van 
+##     0.2     0.1     0.2     0.3     0.1     0.1
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+Cross tables can also be produced easily.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{table}\hlstd{(Car}\hlopt{$}\hlstd{Make, Car}\hlopt{$}\hlstd{Type)}
+\end{alltt}
+\begin{verbatim}
+##             
+##              Compact Large Medium Small Sporty Van
+##   Acura            0     0      1     0      0   0
+##   Buick            0     1      0     0      0   0
+##   Chevrolet        1     0      0     0      0   0
+##   Chrysler         0     0      1     0      0   0
+##   Dodge            0     0      0     0      0   1
+##   Eagle            0     0      0     1      0   0
+##   Ford             0     0      0     1      0   0
+##   Honda            0     0      0     0      1   0
+##   Mitsbusihi       1     0      0     0      0   0
+##   Volkswagen       0     0      0     1      0   0
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+The dataframe can also be sorted by any variable. For example, below the dataframe is sorted by weight.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{i}\hlkwb{<-}\hlkwd{order}\hlstd{(Car}\hlopt{$}\hlstd{Weight);i}
+\end{alltt}
+\begin{verbatim}
+##  [1]  1  5  3  4  2  7 10  6  9  8
+\end{verbatim}
+\begin{alltt}
+\hlstd{Car[i,]}
+\end{alltt}
+\begin{verbatim}
+##          Make         Model Cylinder Weight Mileage    Type
+## 1       Honda         Civic       V4   2170      33  Sporty
+## 5  Volkswagen         Jetta       V4   2330      26   Small
+## 3        Ford        Escort       V4   2345      33   Small
+## 4       Eagle        Summit       V4   2560      33   Small
+## 2   Chevrolet       Beretta       V4   2655      26 Compact
+## 7  Mitsbusihi        Galant       V4   2745      25 Compact
+## 10      Acura        Legend       V6   3265      20  Medium
+## 6       Buick      Le Sabre       V6   3325      23   Large
+## 9    Chrysler    New Yorker       V6   3450      22  Medium
+## 8       Dodge Grand Caravan       V6   3735      18     Van
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+%$
+Note that in the Windows platform,
+dataframes can be accessed directly through \texttt{Edit}$\rightarrow${Data editor} $ldots$, or the command
+\texttt{data1<-edit(data.frame())}.
+A spreadsheet is produced in which data can be entered directly. However, this requires care to ensure that the 
+data types are
+defined correctly. This is especially critical for factors.
+
+\subsection{Writing data to files}
+The function \texttt{write(x, file = "data",ncolumns = if(is.character(x)) 1 else 5, append = FALSE, sep = " ")} writes
+\texttt{x}, usually a matrix, to a file. If
+\texttt{append=TRUE)} then the data is appended at the end of the file. 
+A related function is 
+
+\texttt{write.table(x, file = "", append = FALSE, sep = " ",dec = ".", row.names = TRUE, col.names = TRUE)}
+
+used to write dataframes to file. If 
+the object to be written is not a data frame then it is coerced to be one. 
+
+\subsection{\tR\ script files}
+
+When writing a long piece of code it is easy to make mistakes, and the whole code needs to be typed in again. In addition, some code may be used again. 
+One should {\it always} write the code in a file and then run it in
+\tR. Simply access the \texttt{R Editor} from 
+\texttt{File} $\Rightarrow$ \texttt{New File} $\Rightarrow$ \texttt{R Script}and saving it with a \texttt{.R} extension by default. Such a file can then be 
+run in \tR\ , and also used as a template to write new code. 
+
+When building a long piece of code, one should enter the code a few lines at a time and test it before continuing.
+
+{\bf Exercises}
+\begin{enumerate}
+\item The formula for computing the interest paid  on a loan of
+\$1,000 compounded annually if the nominal annual rate is 7.5\% is
+$${\rm Interest} = 1000\left(\left(1+0.075\right)^5-1\right)$$
+\begin{enumerate}
+\item Write the \tR \ code for the above expression.
+\item What is the result of your computation above?
+\item Modify the expression to determine the amount of interest paid if the nominal annual rate is 3.5\%.
+\item What happens if the exponent $5$ is replaced by \texttt{(1:10)}?
+\end{enumerate}
+\item Write  \tR \ code that prints out the perfect squares up to and including $100$.
+\end{enumerate}
+
+\bibliographystyle{plain}
+\begin{thebibliography}{9}
+\bibitem{rbook}
+Michael J. Crawley,
+  \textit{The R Book},
+  John Wiley \& Sons, Ltd, West Sussex, UK,
+  2nd edition,
+  2012.
+\end{thebibliography}
+
+\end{document}

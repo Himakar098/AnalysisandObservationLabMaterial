@@ -1,0 +1,323 @@
+\documentclass[12pt,A4,makeidx]{article}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{subfig}
+\usepackage{comment}
+\UseRawInputEncoding
+
+\makeindex
+
+\textwidth 16.5cm
+\hoffset -2.0cm
+\textheight 23cm
+\voffset -1.5cm
+
+\newcommand{\tR}{\texttt{R}}
+\newcommand{\adist}{\overset{\cdot}{\underset{\cdot}{\sim}}}
+%\setcounter{tocdepth}{2}
+\title
+{Essential R}
+
+\author{R. Nazim Khan}
+\date{\today}
+
+%\includeonly{utilities, prog, probdist, graphics,stats}
+\begin{document}
+
+\numberwithin{figure}{section}
+\numberwithin{equation}{section}
+\numberwithin{table}{section}
+
+\maketitle
+\section{Introduction}
+This is a basic introdcution to \tR\, a statistical environment. More information can be found in a many references. One particular
+complete reference is \cite{rbook}.
+
+
+\section{Data Basics}
+\label{data}
+In this section we discuss basic data manipulation. We also discuss how to read data into \tR \ and 
+write them out to files.
+
+\subsection{Data manipulation}
+
+The basic data types in \tR \ are numerical, characters, strings and nominal/ordinal. Each data type can be stored 
+as constants, vectors, matrices or dataframes.
+There are several ways to read data into \tR.
+Data can be directly entered into \tR\ by defining variables.
+<<echo=TRUE>>=
+a<-1.2
+b<-pi
+x<-c(1:5)
+y<-c(6:10)
+x
+y
+z<-c(1.1,2.1,3.2,4.5,2.4,3.8,4.3)
+z
+z[2]
+z[1:2]
+z[c(2,4)]
+which(z>4)
+z[z<4]
+z[-2]
+#This lists z without its second element.
+@
+First the constants $a=1.2$ and $b=\pi$ have been defined. The vector \texttt{x} contains the numbers 1 to 5. 
+Note that the syntax \texttt{1:5} indicates integers between
+$1$ to $5$ inclusive. The vector $z$ contains real numbers.
+<<echo=TRUE>>=
+x*y
+x+y
+x*z
+y%%2
+3%/%2
+@
+The symbol $+$ indicated addition, $*$ indicates multiplication while \texttt{/} indicated real division, 
+and these are performed term by term. 
+If the objects are not of the same length then the shorter one is re-cycled to match the lengths. The symbol \texttt{\%\%}
+represents modulo division, while \texttt{\%/\%} represents integer division.
+
+More complicated computations can be performed:
+<<echo=TRUE>>=
+(x+y)^2 
+log(x)
+log10(x)
+log2(x)
+logb(x,3)
+exp(x)
+10^x
+@
+
+Note that $\log$ represents logarithm to the base $e$. 
+
+A large range of mathematical functions is available.
+<<echo=TRUE>>=
+sin(pi)
+exp(-1)
+log(exp(1))
+@
+
+Note that \tR \ can also handle complex numbers.
+<<echo=TRUE>>=
+x<-(1+2i)
+y<-(3+4i)
+x+y
+x^2
+x^y
+sqrt(x)
+sqrt((-1+0i))
+@
+
+Character types can also be easily handled by \tR.
+<<echo=TRUE>>=
+x<-c("Hummer","Dodge","Bentley")
+y<-c("Toyota","Honda","Mitsubishi")
+str(x)
+@
+
+\vspace{0.5in}
+{\bf Exercises}
+\begin{enumerate}
+\item Sales (\$millions)
+for a chain of stores for last year and this year 
+for the month of January, in store correspondence are:
+
+last years: 1.5, 1.7,2.1,3.4,1.3,2.4,4.5,0.9\\
+this years: 1.6, 1.8,1.9,3.5,1.1,2.2,4.5, 1.2\\
+
+Is there a difference in the mean sales between January last year and this year? Write the \tR \ code to compute
+the appropriate test statistic to test the appropriate hypotheses.
+\item Write the \tR \ code to compute the variance of the combined sales figures in the previous exercise.
+\item Suppose the sales were for a random sample of stores from a franchise. Now compute the appropriate test
+statistic to determine if the sales have increased from last year.
+\end{enumerate}
+
+
+Matrices are read as follows.
+<<echo=TRUE>>=
+x<-matrix(nrow=3,c(1,2,3,4,5,6,7,8,9),byrow=F)
+x
+class(x)
+attributes(x)
+x[1,]
+x[,1]
+summary(x)
+@
+
+Another very useful function is \texttt{gl()}, which creates a factor with the specified number of levels. 
+The basic syntax is
+<<echo=TRUE>>=
+Nitrogen<-gl(n= 3, k=10, length = 30, labels = c("Low","Med","High"), ordered = T)
+class(Nitrogen)
+is.factor(Nitrogen)
+is.ordered(Nitrogen)
+@
+where \texttt{n} give the number of levels, \texttt{k} gives the number of times each is repeated, \texttt{length} gives the
+option of repeating this set, \texttt{labels} provides a set of optional levels, and \texttt{ordered} specifies whether the
+factor is ordered.
+
+\subsection{Logical comparisons}
+\tR\ understands logical comparisons $<,>,<=,>=$, which are applied elementwise. Note that logical equality is
+$==$ and inequality is $!=$, while \& is `logical and', $\mid$ is `logical or'.
+<<echo=TRUE>>=
+(1:5) == (5:1)
+(1:5)>(5:1)
+((1:5)==(5:1))|((1:5)>(5:1))
+((1:5)==(5:1))& ((1:5)<(5:1))
+@
+
+Use \texttt{help("!")} to obtain information regarding logical operators. The following functions are also useful.
+\begin{description}
+\item[\texttt{any()}] Returns \texttt{TRUE} if any of the argument satisfies the criteria.
+\item[\texttt{all()}] Returns \texttt{TRUE} if all of the argument satisfies the criteria.
+\item[\texttt{identical()}] Returns \texttt{TRUE} if the two objects are exactly the same.
+\item[\texttt{all.equal()}] Returns \texttt{TRUE} the two objects are (near) equal.
+\end{description}
+
+<<echo=TRUE>>=
+identical(sin(pi),0)
+all.equal(sin(pi),0)
+x<-c(1:4,-1,-3,0)
+if(any(x<0)) cat("Some x are negative")
+@
+
+\subsection{Changing the working directory}
+The working directory can be changed from \texttt{File} $\Rightarrow$ \texttt{Change dir...}. This then gives a dialogue box that allows one to browse
+for the required directory.
+
+\subsection{Reading data into \texttt{R}}
+There are various ways to read data into \tR\ depending on the data format.
+\begin{enumerate}
+\item For files ending in \texttt{.R} or \texttt{.r} use \texttt{source()}.
+\item For files ending in \texttt{.Rdata} or \texttt{.rda} use \texttt{load()}.
+\item For files ending in \texttt{.tab}, \texttt{.txt} or \texttt{.TXT} use \texttt{read.table()}, which produces a dataframe.
+\item For files ending in \text{.csv} or \texttt{.CSV} use \texttt{read.table(...,header=TRUE, sep=";")}, which produces a dataframe.
+\end{enumerate}
+
+\subsubsection{The function \texttt{scan}}
+The function \texttt{scan} can be used to read data into \tR\ from a file.
+The basic syntax is
+
+\begin{verbatim}
+scan(file = "filename", sep = "",
+     skip = 0, nlines = 0, na.strings = "NA")
+\end{verbatim}
+If the filename is ``" then the input is from the keyboard (or the \texttt{stdin}), and is 
+terminated by a blank line. Only one column of data can be entered this way.
+
+
+\subsubsection{The function \texttt{read.table}}
+This function is used to read a dataframe from a file. The basic syntax is
+\begin{verbatim}
+read.table(file, header = FALSE, sep = "", quote = "\",...)
+\end{verbatim}
+Typically the file is a \texttt{.txt} or \texttt{.csv}. The separator is usually a space \texttt{sep=" "} in which
+case it can be omitted, a tab \texttt{sep="$\backslash$t"}, a comma \texttt{sep=","} or a semicolon \texttt{sep=";"}. If 
+\texttt{header=T} then column names will be read in from the first line of the file. Otherwise column names
+may be specified by a vector. Similarly, row names may also be specified by a vector.
+
+
+There are related functions \texttt{read.csv()}, \texttt{read.delim()} and a few variants. 
+Use the \texttt{help} function for more details. Excel files can also be read in---see the library 
+\texttt{readxl} for details.
+
+\subsubsection{Accessing built in data sets}
+
+There are several data sets supplied with \tR, and several that come with different packages. 
+All datasets supplied with \tR\ are directly available by name. 
+
+\subsection{Dataframes}
+Several columns together form a data set, with each
+row containing a \texttt{record}, that is, observations on a single \texttt{experimental unit}. In \tR \ such an
+object is called a \texttt{dataframe}. The matrix class and the dataframe class are very similar in \tR \, except that
+some operations can be performed on matrices but not on dataframes. The dataframe will have column names 
+that are used to refer to the variables.
+In \tR \ the dataframe may also have row names defined. Row names may be used to refer to each record,
+and this is meaningful in many contexts. For example, the observations may be demographic information on cities,
+and the records may be identified by the city names which are stored as row names.
+
+A dataframe is defined by the functions \texttt{data.frame()} or \texttt{as.data.frame()}. Below we create a 
+simple data frame.
+<<echo=TRUE>>=
+Make<-c("Honda","Chevrolet","Ford","Eagle","Volkswagen","Buick","Mitsbusihi","Dodge","Chrysler","Acura")
+Model<-c("Civic","Beretta","Escort","Summit","Jetta","Le Sabre","Galant","Grand Caravan","New Yorker","Legend")
+Cylinder<-c(rep("V4",5),"V6","V4",rep("V6",3)) 
+Weight<-c(2170,2655,2345,2560,2330,3325,2745,3735,3450,3265) 
+Mileage<-c(33,26,33,33,26,23,25,18,22,20) 
+Type<-c("Sporty","Compact",rep("Small",3),"Large","Compact","Van",rep("Medium",2))
+Car<-data.frame(Make,Model,Cylinder,Weight,Mileage,Type) 
+Car
+Car[1,]
+Car[,1]
+Car$Model
+table(Car$Type)
+@
+
+The proportion of cars of each type can be produced by:
+<<echo=TRUE>>=
+table(Car$Type)/length(Car$Type)
+@
+Cross tables can also be produced easily.
+<<echo=TRUE>>=
+table(Car$Make, Car$Type)
+@
+The dataframe can also be sorted by any variable. For example, below the dataframe is sorted by weight.
+<<echo=TRUE>>=
+i<-order(Car$Weight);i 
+Car[i,] 
+@
+%$
+Note that in the Windows platform,
+dataframes can be accessed directly through \texttt{Edit}$\rightarrow${Data editor} $ldots$, or the command
+\texttt{data1<-edit(data.frame())}.
+A spreadsheet is produced in which data can be entered directly. However, this requires care to ensure that the 
+data types are
+defined correctly. This is especially critical for factors.
+
+\subsection{Writing data to files}
+The function \texttt{write(x, file = "data",ncolumns = if(is.character(x)) 1 else 5, append = FALSE, sep = " ")} writes
+\texttt{x}, usually a matrix, to a file. If
+\texttt{append=TRUE)} then the data is appended at the end of the file. 
+A related function is 
+
+\texttt{write.table(x, file = "", append = FALSE, sep = " ",dec = ".", row.names = TRUE, col.names = TRUE)}
+
+used to write dataframes to file. If 
+the object to be written is not a data frame then it is coerced to be one. 
+
+\subsection{\tR\ script files}
+
+When writing a long piece of code it is easy to make mistakes, and the whole code needs to be typed in again. In addition, some code may be used again. 
+One should {\it always} write the code in a file and then run it in
+\tR. Simply access the \texttt{R Editor} from 
+\texttt{File} $\Rightarrow$ \texttt{New File} $\Rightarrow$ \texttt{R Script}and saving it with a \texttt{.R} extension by default. Such a file can then be 
+run in \tR\ , and also used as a template to write new code. 
+
+When building a long piece of code, one should enter the code a few lines at a time and test it before continuing.
+
+{\bf Exercises}
+\begin{enumerate}
+\item The formula for computing the interest paid  on a loan of
+\$1,000 compounded annually if the nominal annual rate is 7.5\% is
+$${\rm Interest} = 1000\left(\left(1+0.075\right)^5-1\right)$$
+\begin{enumerate}
+\item Write the \tR \ code for the above expression.
+\item What is the result of your computation above?
+\item Modify the expression to determine the amount of interest paid if the nominal annual rate is 3.5\%.
+\item What happens if the exponent $5$ is replaced by \texttt{(1:10)}?
+\end{enumerate}
+\item Write  \tR \ code that prints out the perfect squares up to and including $100$.
+\end{enumerate}
+
+\bibliographystyle{plain}
+\begin{thebibliography}{9}
+\bibitem{rbook}
+Michael J. Crawley,
+  \textit{The R Book},
+  John Wiley \& Sons, Ltd, West Sussex, UK,
+  2nd edition,
+  2012.
+\end{thebibliography}
+
+\end{document}

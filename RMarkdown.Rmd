@@ -1,0 +1,64 @@
+---
+title: "Lecture 3 Notes"
+author: "R Nazim Khan"
+date: "9/08/2021"
+output: 
+  pdf_document:
+  fig_caption: yes
+documentclass: article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align='center')
+library(bookdown)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r  fig.cap = "Plot of pressure against temperature. \\label{pressure}"}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. The `fig.cap` option allows adding a caption to the figure. Adding a label so that you can refer to the figure in the document. So for example, Figure
+\ref{pressure} shows a plot of pressure against temperature. It can be seen that pressure increases
+exponentially with temperature.
+
+Mathematics can be typesett using the \LaTeX\ syntax. For example,
+\begin{equation}
+\sum_{i= 1}^n i = \frac{n(n+1)}{2} \label{sumeqn}
+\end{equation}
+is the a formula for the sum of the first $n$ positive integers. 
+
+Show that
+\begin{equation}
+\sum_{i=1}^n i^3 = \left(\sum_{i= 1}^ n i \right)^2, \label{sumcubes}
+\end{equation}
+that is, the sum of the cubes of the first $n$ positive integers is equal to the square of the sum
+of the first $n$ integers.
+
+Here is a linear model.
+```{r} 
+summary(Orange)
+orange.lm <- lm(age ~ circumference, data = Orange)
+summary(orange.lm)
+plot(orange.lm$residuals ~ orange.lm$fitted.values)
+```
+You can search for \LaTeX\ mathematical commands. For example, if you search for `latex integrals', you will
+be able to produce:
+\begin{align}
+\int_0^{\infty} e^{-x}\ dx &= \left.\left(-e^{-x}\right)\right|_0^{\infty} \nonumber\\
+&= 0 -(-1) \nonumber\\
+&= 1 \label{exp}
+\end{align}
